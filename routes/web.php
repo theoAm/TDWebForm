@@ -12,5 +12,8 @@
 */
 
 $router->get('/', function () use ($router) {
+
+    dd(\Illuminate\Support\Facades\DB::table('repos')->count());
     return $router->app->version();
+
 });
