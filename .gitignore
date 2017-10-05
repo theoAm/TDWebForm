@@ -21,3 +21,4 @@ Homestead.json
 
 .idea/
 composer.lock
+database/database.sqlite
