@@ -13,7 +13,14 @@
 
 $router->get('/', function () use ($router) {
 
-    dd(\Illuminate\Support\Facades\DB::table('repos')->count());
     return $router->app->version();
+
+});
+
+$router->group(['prefix' => 'violations'], function () use ($router) {
+
+
+    $router->get('/next/{hash}', 'TdViolationsController@next');
+
 
 });
