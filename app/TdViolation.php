@@ -8,32 +8,28 @@ use Illuminate\Database\Eloquent\Model;
  * App\TdViolation
  *
  * @property int $id
- * @property int $td_diff_id
- * @property string $key
- * @property string $name
- * @property string $description
- * @property string $severity
- * @property string $defaultDebtChar
- * @property string $added_or_resolved
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereAddedOrResolved($value)
+ * @property int|null $component_source_id
+ * @property int|null $rule_id
+ * @property-read \App\ComponentSource|null $componentSource
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereComponentSourceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereDefaultDebtChar($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereSeverity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereTdDiffId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereRuleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read \App\TdDiff $tdDiff
+ * @property int|null $line
+ * @property string|null $message
+ * @property string|null $tags
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereLine($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereTags($value)
  */
 class TdViolation extends Model
 {
-    public function tdDiff()
+    public function componentSource()
     {
-        return $this->belongsTo(TdDiff::class);
+        return $this->belongsTo(ComponentSource::class);
     }
 }
