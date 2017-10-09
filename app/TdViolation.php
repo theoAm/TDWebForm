@@ -25,6 +25,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereLine($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereTags($value)
+ * @property int|null $repo_id
+ * @property string|null $author
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereAuthor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereRepoId($value)
  */
 class TdViolation extends Model
 {

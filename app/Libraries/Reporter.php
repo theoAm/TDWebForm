@@ -40,7 +40,7 @@ class Reporter
 
         foreach ($committers as $json) {
 
-            $commits = $this->getCommits($json, $repo);
+            $commits = $this->getCommits($json->author, $repo);
             if(!$commits->count()) {
                 continue;
             }
@@ -67,6 +67,9 @@ class Reporter
                         $td_violation->rule_id = $array['rule_id'];
                         $td_violation->line = $array['line'];
                         $td_violation->message = $array['message'];
+                        $td_violation->tags = $array['tags'];
+                        $td_violation->repo_id = $repo->id;
+                        $td_violation->author = $json->author;
                         $td_violation->save();
 
                     }
@@ -79,7 +82,7 @@ class Reporter
         }
     }
 
-    private function getCommiters($repo)
+    private function getCommiters(Repo $repo)
     {
         $committers = Commit::select('author', DB::raw('COUNT(*) as count'))
             ->where('repo_id', $repo->id)
@@ -90,16 +93,16 @@ class Reporter
         return $committers;
     }
 
-    private function getCommits($json, $repo)
+    private function getCommits($author, Repo $repo)
     {
-        $commits = Commit::where('author', $json->author)
+        $commits = Commit::where('author', $author)
             ->where('repo_id', $repo->id)
             ->orderBy('committed_at', 'ASC')
             ->get();
         return $commits;
     }
 
-    private function getCommitFiles($commit, $repo)
+    private function getCommitFiles(Commit $commit, Repo $repo)
     {
         $commit_files = CommitFile::where('commit_id', $commit->id)
             ->where('repo_id', $repo->id)
