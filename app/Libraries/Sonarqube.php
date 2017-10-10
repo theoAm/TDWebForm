@@ -91,6 +91,8 @@ class Sonarqube
                         $component_source = new ComponentSource();
                         $component_source->component_key = $componentKey;
                         $component_source->sources = serialize($sources);
+                        $component_source->filename = $file->filename;
+                        $component_source->revision = $sha;
                         $component_source->save();
 
                     }

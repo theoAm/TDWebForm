@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="bootstrap.min.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="source.css">
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1 class="pull-left">Technical Debt Item: <span id="title"></span></h1>
+        <h1 class="pull-right">
+            Severity: <span id="severity"></span>
+        </h1>
+        <div style="clear: both;"></div>
+
+        <div>Tags: <span id="tags"></span></div>
+
+        <div class="alert alert-warning" style="padding: 20px;margin: 20px 0px 20px 0px; font-size: 18px;">
+
+            <span>&#9888;</span>
+            <span id="message">Message</span>
+            <a id="scrollToLine" href="#!" onclick="">(Line: <span id="line"></span>)</a>
+
+        </div>
+
+        <div id="filename" class="pull-left">Filename</div>
+        <div class="pull-right">Revision: <span id="revision"></span></div>
+        <div style="clear: both;"></div>
+
+        <div class="source-viewer" style="max-height: 450px; overflow: scroll;">
+            <table class="source-table">
+                <tbody id="source">
+
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+</body>
+</html>

@@ -19,11 +19,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ComponentSource whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ComponentSource whereUpdatedAt($value)
+ * @property string|null $filename
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ComponentSource whereFilename($value)
+ * @property string|null $revision
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ComponentSource whereRevision($value)
  */
 class ComponentSource extends Model
 {
-    public function tdViolation()
-    {
-        return $this->hasMany(TdViolation::class);
-    }
+
 }

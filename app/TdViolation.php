@@ -29,11 +29,23 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $author
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereAuthor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereRepoId($value)
+ * @property-read \App\Repo|null $repo
+ * @property-read \App\TdRule|null $rule
  */
 class TdViolation extends Model
 {
     public function componentSource()
     {
         return $this->belongsTo(ComponentSource::class);
+    }
+
+    public function rule()
+    {
+        return $this->belongsTo(TdRule::class);
+    }
+
+    public function repo()
+    {
+        return $this->belongsTo(Repo::class);
     }
 }

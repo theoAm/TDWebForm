@@ -17,7 +17,7 @@ $router->get('/', function () use ($router) {
 
 });
 
-$router->group(['prefix' => 'violations'], function () use ($router) {
+$router->group(['prefix' => 'violations', 'middleware' => 'cors'], function () use ($router) {
 
 
     $router->get('/next/{hash}', 'TdViolationsController@next');

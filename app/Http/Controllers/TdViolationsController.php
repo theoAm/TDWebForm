@@ -13,9 +13,30 @@ class TdViolationsController extends Controller
 
     public function next($author_hash)
     {
-        /** @var TdViolation $tdViolation */
-        $tdViolation = TdViolation::with('tdDiff')->find(665);
+        $resp = [];
 
-        return $tdViolation;
+        /** @var TdViolation $tdViolation */
+        $tdViolation = TdViolation::with('rule')
+            ->with('repo')
+            ->find(33856);
+
+        $componentSource = $tdViolation->componentSource;
+        $lines = unserialize($componentSource->sources);
+
+        $resp = [
+
+            'rule_name' => $tdViolation->rule->name,
+            'severity' => $tdViolation->rule->severity,
+            'tags' => implode(', ', unserialize($tdViolation->tags)),
+            'author' => $tdViolation->author,
+            'filename' => $componentSource->filename,
+            'line' => $tdViolation->line,
+            'message' => $tdViolation->message,
+            'source' => $lines,
+            'revision' => $componentSource->revision,
+
+        ];
+
+        return $resp;
     }
 }
