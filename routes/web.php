@@ -11,7 +11,11 @@
 |
 */
 
-$router->get('/', 'MainController@index');
+$router->group(['middleware' => 'cors'], function () use ($router) {
+
+    $router->get('/', 'MainController@index');
+
+});
 
 $router->group(['prefix' => 'violations', 'middleware' => 'cors'], function () use ($router) {
 
