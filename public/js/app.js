@@ -53,7 +53,7 @@ function populateFieds(response) {
 
 function getNext() {
 
-    var host = 'http://tdwebform.dev';
+    var host = $('#ajax_host').val();
 
     $.ajax({
         url: host + "/violations/next/kkkkk",

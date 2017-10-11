@@ -11,16 +11,10 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-
-    return $router->app->version();
-
-});
+$router->get('/', 'MainController@index');
 
 $router->group(['prefix' => 'violations', 'middleware' => 'cors'], function () use ($router) {
 
-
     $router->get('/next/{hash}', 'TdViolationsController@next');
-
 
 });
