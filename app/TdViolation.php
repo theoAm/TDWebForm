@@ -31,6 +31,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereRepoId($value)
  * @property-read \App\Repo|null $repo
  * @property-read \App\TdRule|null $rule
+ * @property string|null $debt_string
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereDebtString($value)
+ * @property string|null $added_or_resolved
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereAddedOrResolved($value)
  */
 class TdViolation extends Model
 {

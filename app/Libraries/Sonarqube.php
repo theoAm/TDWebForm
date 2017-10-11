@@ -21,7 +21,8 @@ class Sonarqube
 
     public function getFileMetrics(CommitFile $file, $sha)
     {
-        $metricKeys = 'sqale_index,sqale_debt_ratio,blocker_violations,critical_violations,major_violations,minor_violations,info_violations';
+        $metricKeys = 'sqale_index,sqale_debt_ratio,blocker_violations,' .
+            'critical_violations,major_violations,minor_violations,info_violations';
         $componentKey = $this->project . ':' . $sha . ':' . $file->filename;
         $url = $this->host . '/api/measures/component?metricKeys=' . $metricKeys . '&componentKey=' . $componentKey;
 
@@ -65,7 +66,7 @@ class Sonarqube
     public function getFileViolations(CommitFile $file, $sha)
     {
         $componentKey = $this->project . ':' . $sha . ':' . $file->filename;
-        $url = $this->host . '/api/issues/search?componentKeys=' . $componentKey;
+        $url = $this->host . '/api/issues/search?componentKeys=' . $componentKey . '&s=FILE_LINE&asc=true';
 
         try {
 
@@ -120,12 +121,18 @@ class Sonarqube
 
                 }
 
-                $violations[] = [
-                    'line' => (isset($i->line)) ? $i->line : null,
+                $line = (isset($i->line)) ? $i->line : 0;
+
+                $violations[$line . 'yyy' . $rule->id] = [
+
+                    'key' => $i->key,
+                    'line' => $line,
                     'message' => $i->message,
                     'tags' => serialize($i->tags),
                     'component_source_id' => $component_source->id,
-                    'rule_id' => $rule->id
+                    'rule_id' => $rule->id,
+                    'debt_string' => (isset($i->debt)) ? $i->debt : null
+
                 ];
 
             }

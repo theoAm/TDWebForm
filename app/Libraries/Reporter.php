@@ -50,6 +50,12 @@ class Reporter
 
                 $progress ++;
 
+                /** @var Commit $previous_commit */
+                $previous_commit = $this->getPreviousCommit($commit);
+                if(!$previous_commit) {
+                    continue;
+                }
+
                 $commit_files = $this->getCommitFiles($commit, $repo);
                 if(!$commit_files) {
                     continue;
@@ -58,9 +64,26 @@ class Reporter
                 /** @var CommitFile $commit_file */
                 foreach ($commit_files as $commit_file) {
 
-                    $violations = $this->sonarqube->getFileViolations($commit_file, $commit->sha);
+                    $metrics = $this->sonarqube->getFileMetrics($commit_file, $commit->sha);
+                    $previous_metrics = $this->sonarqube->getFileMetrics($commit_file, $previous_commit->sha);
 
-                    foreach ($violations as $array) {
+                    if(!$previous_metrics || !$metrics) {
+                        continue;
+                    }
+
+                    if($previous_metrics['sqale_index'] == $metrics['sqale_index']) {
+                        continue;
+                    }
+
+                    $violations = $this->sonarqube->getFileViolations($commit_file, $commit->sha);
+                    $previous_violations = $this->sonarqube->getFileViolations($commit_file, $previous_commit->sha);
+
+                    $compare_violations = $this->compareViolations($previous_violations, $violations);
+                    if(!$compare_violations['resolved'] && !$compare_violations['added']) {
+                        continue;
+                    }
+
+                    foreach ($compare_violations['added'] as $array) {
 
                         $td_violation = new TdViolation();
                         $td_violation->component_source_id = $array['component_source_id'];
@@ -70,6 +93,24 @@ class Reporter
                         $td_violation->tags = $array['tags'];
                         $td_violation->repo_id = $repo->id;
                         $td_violation->author = $json->author;
+                        $td_violation->debt_string = $array['debt_string'];
+                        $td_violation->added_or_resolved = 'added';
+                        $td_violation->save();
+
+                    }
+
+                    foreach ($compare_violations['resolved'] as $array) {
+
+                        $td_violation = new TdViolation();
+                        $td_violation->component_source_id = $array['component_source_id'];
+                        $td_violation->rule_id = $array['rule_id'];
+                        $td_violation->line = $array['line'];
+                        $td_violation->message = $array['message'];
+                        $td_violation->tags = $array['tags'];
+                        $td_violation->repo_id = $repo->id;
+                        $td_violation->author = $json->author;
+                        $td_violation->debt_string = $array['debt_string'];
+                        $td_violation->added_or_resolved = 'resolved';
                         $td_violation->save();
 
                     }
@@ -109,5 +150,42 @@ class Reporter
             ->where('filename', 'like', '%.php')
             ->get();
         return $commit_files;
+    }
+
+    private function getPreviousCommit(Commit $commit)
+    {
+        return Commit::where('committed_at', '<', $commit->committed_at)
+            ->where('repo_id', $commit->repo_id)
+            ->latest('committed_at')
+            ->first();
+    }
+
+    private function compareViolations($previous_violations, $violations)
+    {
+        $added = [];
+        $resolved = [];
+
+        foreach ($violations as $i => $a) {
+            if(!array_key_exists($i, $previous_violations)) {
+                $added[$a['rule_id']] = $a;
+            }
+        }
+        foreach ($previous_violations as $i => $r) {
+            if(!array_key_exists($i, $violations)) {
+                $resolved[$r['rule_id']] = $r;
+            }
+        }
+
+        foreach ($added as $i => $a) {
+            if(array_key_exists($i, $resolved)) {
+                unset($resolved[$i]);
+                unset($added[$i]);
+            }
+        }
+
+        return [
+            'resolved' => $resolved,
+            'added' => $added
+        ];
     }
 }

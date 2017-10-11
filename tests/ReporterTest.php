@@ -8,7 +8,6 @@ class ReporterTest extends TestCase
 {
     public function testReporter()
     {
-        $reporter = new Reporter();
-        $reporter->compareCommitsTd();
+
     }
 }
