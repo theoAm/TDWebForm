@@ -7,7 +7,8 @@ $(document).ready(function () {
 function scrollToLine(line) {
 
     var source_div = $('.source-viewer');
-    var top = $('.source-line[data-line="' + line + '"]').offset().top - source_div.offset().top - (source_div.innerHeight() / 2);
+    var line_item = $('.source-line[data-line="' + line + '"]');
+    var top = source_div.scrollTop() + line_item.position().top - source_div.height()*1.25 + line_item.height()/2;
     source_div.scrollTop(top);
 
 }

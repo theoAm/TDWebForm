@@ -13,23 +13,52 @@
 
     <div class="container">
 
-        <h1 class="pull-left">Technical Debt Item: <span id="title"></span></h1>
-        <h1 class="pull-right">
-            Severity: <span id="severity"></span>
-        </h1>
-        <div style="clear: both;"></div>
+        <div id="header">
+            <div class="pull-left">
+                <img src="pamak-front-eng-header.jpg" alt="University of Macedonia" width="210">
+                &nbsp;
+            </div>
+            <div class="pull-left">
+                <h1>University of Macedonia</h1>
+                <h2>Department of Applied Informatics</h2>
+                <h4>Thessaloniki, Greece</h4>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
 
-        <div>Tags: <span id="tags"></span></div>
+        <h1 class="center">
+            <p>Technical Debt Item Evaluation</p>
+        </h1>
 
         <div class="alert alert-warning" style="padding: 20px;margin: 20px 0px 20px 0px; font-size: 18px;">
 
-            <span>&#9888;</span>
-            <span id="message">Message</span>
-            <a id="scrollToLine" href="#!" onclick="">(Line: <span id="line"></span>)</a>
+            <div>
+                <div class="pull-left">
+                    <span>&#9888;&nbsp;</span>
+                </div>
+                <div class="pull-left">
+                    <div><u>Technical Debt Item</u>: <span id="title"></span></div>
+                    <div>
+                        <u>Suggestion</u>: <span id="message"></span>
+                        <a id="scrollToLine" href="#!" onclick="">(Line: <span id="line"></span>)</a>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+
+            <br>
+
+            <div class="small">
+                <div class="pull-left">Tags: <span id="tags"></span></div>
+                <div class="pull-right">
+                    Severity: <span id="severity"></span>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
 
         </div>
 
-        <div id="filename" class="pull-left">Filename</div>
+        <div class="pull-left">File: <span id="filename"></span></div>
         <div class="pull-right">Revision: <span id="revision"></span></div>
         <div style="clear: both;"></div>
 
