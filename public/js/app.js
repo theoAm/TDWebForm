@@ -22,6 +22,7 @@ function populateFieds(response) {
     $('#filename').text(response.filename);
     $('#line').text(response.line);
     $('#revision').text(response.revision);
+    $('#tdpayment').text(response.tdpayment);
 
     var source_html = '';
     for (var i in response.source) {
@@ -67,7 +68,7 @@ function getNext() {
         },
         error: function () {
 
-            resetFields();
+
 
         },
         complete: function () {

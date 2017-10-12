@@ -26,7 +26,8 @@ body {
 }
 
 #header {
-    background-color: #165fac;
+    background-color: #0096ff;
+    padding: 10px;
 }
 #header h1,
 #header h2,

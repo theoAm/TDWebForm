@@ -15,19 +15,24 @@
 
     <div id="header">
         <div class="pull-left">
-            <img src="images/pamak-front-eng-header.jpg" alt="University of Macedonia" width="210">
+            <img src="images/UOM_logo_new_ENG300_transparent.PNG"
+                 alt="University of Macedonia"
+                 height="80"
+            >
             &nbsp;
         </div>
         <div class="pull-left">
-            <h1>University of Macedonia</h1>
-            <h2>Department of Applied Informatics</h2>
-            <h4>Thessaloniki, Greece</h4>
+            <h1>
+                University of Macedonia<br>
+                Department of Applied Informatics<br>
+                Thessaloniki, Greece
+            </h1>
         </div>
         <div style="clear: both;"></div>
     </div>
 
     <h1 class="center">
-        <p>Technical Debt Item Evaluation</p>
+        <p>Technical Debt Evaluation</p>
     </h1>
 
     <div class="alert alert-warning" style="padding: 20px;margin: 20px 0px 20px 0px; font-size: 18px;">
@@ -35,24 +40,28 @@
         <input id="ajax_host" type="hidden" value="<?php echo $ajax_host; ?>">
         <div>
             <div class="pull-left">
-                <span>&#9888;&nbsp;</span>
+                <span>&#9888;&nbsp;&nbsp;</span>
             </div>
+
             <div class="pull-left">
                 <div><u>Technical Debt Item</u>: <span id="title"></span></div>
                 <div>
                     <u>Suggestion</u>: <span id="message"></span>
                     <a id="scrollToLine" href="#!" onclick="">(Line: <span id="line"></span>)</a>
                 </div>
-            </div>
-            <div style="clear: both;"></div>
-        </div>
 
-        <br>
+                <br>
 
-        <div class="small">
-            <div class="pull-left">Tags: <span id="tags"></span></div>
-            <div class="pull-right">
-                Severity: <span id="severity"></span>
+                <div class="small">
+                    <div><u>Tags</u>: <span id="tags"></span></div>
+                    <div>
+                        <u>Severity</u>: <span id="severity"></span>
+                    </div>
+                    <div>
+                        <u>Estimated time to fix</u>: <span id="tdpayment"></span>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
             </div>
             <div style="clear: both;"></div>
         </div>
@@ -63,7 +72,7 @@
     <div class="pull-right">Revision: <span id="revision"></span></div>
     <div style="clear: both;"></div>
 
-    <div class="source-viewer" style="max-height: 450px; overflow: scroll;">
+    <div class="source-viewer" style="max-height: 400px; overflow: scroll;">
         <table class="source-table">
             <tbody id="source">
 

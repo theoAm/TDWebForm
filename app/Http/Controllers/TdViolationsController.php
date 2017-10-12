@@ -18,7 +18,7 @@ class TdViolationsController extends Controller
         /** @var TdViolation $tdViolation */
         $tdViolation = TdViolation::with('rule')
             ->with('repo')
-            ->find(46705);
+            ->find(88);
 
         $componentSource = $tdViolation->componentSource;
         $lines = unserialize($componentSource->sources);
@@ -34,6 +34,7 @@ class TdViolationsController extends Controller
             'message' => $tdViolation->message,
             'source' => $lines,
             'revision' => $componentSource->revision,
+            'tdpayment' => $tdViolation->debt_string
 
         ];
 
