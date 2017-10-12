@@ -5,6 +5,7 @@ namespace App\Libraries;
 
 use App\Commit;
 use App\CommitFile;
+use App\ComponentSource;
 use App\Repo;
 use App\TdDiff;
 use App\TdViolation;
@@ -220,5 +221,34 @@ class Reporter
         $td_diff->author = $author;
         $td_diff->sqale_index_diff = $diff_metrics['sqale_index'];
         $td_diff->save();
+    }
+
+    public function fileModificationsRanking(TdViolation $tdViolation, ComponentSource $componentSource)
+    {
+        $modifications = DB::table('commit_files')
+            ->select('filename', DB::raw('count(*) as count'))
+            ->where('repo_id', '=', $tdViolation->repo_id)
+            ->where('filename', 'LIKE', '%.php')
+            ->groupBy('filename')
+            ->orderBy('count')
+            ->get();
+
+        $i = $modifications->search(function ($item, $key) use ($componentSource) {
+
+            return $item->filename == $componentSource->filename;
+
+        });
+
+        if($i === false) {
+            return false;
+        }
+
+        $i++;
+
+        $total = $modifications->count();
+
+        $ratio = round(1 - ($i/$total), 2);
+
+        return $ratio;
     }
 }

@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\CommitFile;
+use App\ComponentSource;
+use App\Libraries\Reporter;
 use App\TdViolation;
+use Illuminate\Support\Facades\DB;
 
 class TdViolationsController extends Controller
 {
@@ -23,6 +27,8 @@ class TdViolationsController extends Controller
         $componentSource = $tdViolation->componentSource;
         $lines = unserialize($componentSource->sources);
 
+        $file_modifications_ranking = (new Reporter())->fileModificationsRanking($tdViolation, $componentSource);
+
         $resp = [
 
             'rule_name' => $tdViolation->rule->name,
@@ -34,7 +40,8 @@ class TdViolationsController extends Controller
             'message' => $tdViolation->message,
             'source' => $lines,
             'revision' => $componentSource->revision,
-            'tdpayment' => $tdViolation->debt_string
+            'tdpayment' => $tdViolation->debt_string,
+            'fileModificationsRank' => $file_modifications_ranking
 
         ];
 
