@@ -6,6 +6,7 @@ namespace App\Libraries;
 use App\Commit;
 use App\CommitFile;
 use App\Repo;
+use App\TdDiff;
 use App\TdViolation;
 use Illuminate\Support\Facades\DB;
 
@@ -66,54 +67,23 @@ class Reporter
 
                     $metrics = $this->sonarqube->getFileMetrics($commit_file, $commit->sha);
                     $previous_metrics = $this->sonarqube->getFileMetrics($commit_file, $previous_commit->sha);
+                    $diff_metrics = $this->compareFileMetrics($previous_metrics, $metrics);
 
-                    if(!$previous_metrics || !$metrics) {
+                    if(!$diff_metrics) {
                         continue;
                     }
 
-                    if($previous_metrics['sqale_index'] == $metrics['sqale_index']) {
-                        continue;
-                    }
+                    $this->saveDiffFileMetrics($diff_metrics, $repo, $json->author);
 
                     $violations = $this->sonarqube->getFileViolations($commit_file, $commit->sha);
                     $previous_violations = $this->sonarqube->getFileViolations($commit_file, $previous_commit->sha);
+                    $diff_violations = $this->compareViolations($previous_violations, $violations);
 
-                    $compare_violations = $this->compareViolations($previous_violations, $violations);
-                    if(!$compare_violations['resolved'] && !$compare_violations['added']) {
+                    if(!$diff_violations['resolved'] && !$diff_violations['added']) {
                         continue;
                     }
 
-                    foreach ($compare_violations['added'] as $array) {
-
-                        $td_violation = new TdViolation();
-                        $td_violation->component_source_id = $array['component_source_id'];
-                        $td_violation->rule_id = $array['rule_id'];
-                        $td_violation->line = $array['line'];
-                        $td_violation->message = $array['message'];
-                        $td_violation->tags = $array['tags'];
-                        $td_violation->repo_id = $repo->id;
-                        $td_violation->author = $json->author;
-                        $td_violation->debt_string = $array['debt_string'];
-                        $td_violation->added_or_resolved = 'added';
-                        $td_violation->save();
-
-                    }
-
-                    foreach ($compare_violations['resolved'] as $array) {
-
-                        $td_violation = new TdViolation();
-                        $td_violation->component_source_id = $array['component_source_id'];
-                        $td_violation->rule_id = $array['rule_id'];
-                        $td_violation->line = $array['line'];
-                        $td_violation->message = $array['message'];
-                        $td_violation->tags = $array['tags'];
-                        $td_violation->repo_id = $repo->id;
-                        $td_violation->author = $json->author;
-                        $td_violation->debt_string = $array['debt_string'];
-                        $td_violation->added_or_resolved = 'resolved';
-                        $td_violation->save();
-
-                    }
+                    $this->saveDiffViolations($diff_violations, $repo, $json->author);
 
                 }
 
@@ -187,5 +157,68 @@ class Reporter
             'resolved' => $resolved,
             'added' => $added
         ];
+    }
+
+    private function saveDiffViolations($diff_violations, Repo $repo, $author)
+    {
+        foreach ($diff_violations['added'] as $array) {
+
+            $td_violation = new TdViolation();
+            $td_violation->component_source_id = $array['component_source_id'];
+            $td_violation->rule_id = $array['rule_id'];
+            $td_violation->line = $array['line'];
+            $td_violation->message = $array['message'];
+            $td_violation->tags = $array['tags'];
+            $td_violation->repo_id = $repo->id;
+            $td_violation->author = $author;
+            $td_violation->debt_string = $array['debt_string'];
+            $td_violation->added_or_resolved = 'added';
+            $td_violation->save();
+
+        }
+
+        foreach ($diff_violations['resolved'] as $array) {
+
+            $td_violation = new TdViolation();
+            $td_violation->component_source_id = $array['component_source_id'];
+            $td_violation->rule_id = $array['rule_id'];
+            $td_violation->line = $array['line'];
+            $td_violation->message = $array['message'];
+            $td_violation->tags = $array['tags'];
+            $td_violation->repo_id = $repo->id;
+            $td_violation->author = $author;
+            $td_violation->debt_string = $array['debt_string'];
+            $td_violation->added_or_resolved = 'resolved';
+            $td_violation->save();
+
+        }
+    }
+
+    private function compareFileMetrics($previous_metrics, $metrics)
+    {
+        $diff_metrics = [];
+
+        if(!$previous_metrics || !$metrics) {
+            return $diff_metrics;
+        }
+
+        if($previous_metrics['sqale_index'] == $metrics['sqale_index']) {
+            return $diff_metrics;
+        }
+
+        $diff_metrics = [
+            'sqale_index' => $metrics['sqale_index'] - $previous_metrics['sqale_index']
+        ];
+
+        return $diff_metrics;
+    }
+
+    private function saveDiffFileMetrics($diff_metrics, Repo $repo, $author)
+    {
+        $td_diff = new TdDiff();
+        $td_diff->repo_id = $repo->id;
+        $td_diff->author = $author;
+        $td_diff->sqale_index_diff = $diff_metrics['sqale_index'];
+        $td_diff->save();
     }
 }
