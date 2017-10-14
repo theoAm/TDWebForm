@@ -68,8 +68,13 @@
 
     </div>
 
-    <div class="pull-left">File: <span id="filename"></span></div>
-    <div class="pull-right">Revision: <span id="revision"></span></div>
+    <div class="center" style="font-size: 18px;"><u>File: <span id="filename"></span></u></div>
+    <div style="clear: both;"></div>
+
+    <div><u>Maintenance rate</u>: <span id="fileModificationsRank"></span></div>
+    <div><u>Corrective maintenance rate</u>: <span id="fileCorrectionsRank"></span></div>
+    <div class="pull-left"><u>Sqale index rank</u>: <span id="fileSqaleIndex"></span></div>
+    <div class="pull-right"><u>Revision</u>: <span id="revision"></span></div>
     <div style="clear: both;"></div>
 
     <div class="source-viewer" style="max-height: 400px; overflow: scroll;">

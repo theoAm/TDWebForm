@@ -63,7 +63,7 @@ class Sonarqube
 
     }
 
-    public function getFileViolations(CommitFile $file, $sha)
+    public function getFileViolations(CommitFile $file, $sha, $file_metrics)
     {
         $componentKey = $this->project . ':' . $sha . ':' . $file->filename;
         $url = $this->host . '/api/issues/search?componentKeys=' . $componentKey . '&s=FILE_LINE&asc=true';
@@ -94,6 +94,7 @@ class Sonarqube
                         $component_source->sources = serialize($sources);
                         $component_source->filename = $file->filename;
                         $component_source->revision = $sha;
+                        $component_source->sqale_index = $file_metrics['sqale_index'];
                         $component_source->save();
 
                     }

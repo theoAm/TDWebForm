@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\CommitFile;
-use App\ComponentSource;
 use App\Libraries\Reporter;
 use App\TdViolation;
-use Illuminate\Support\Facades\DB;
 
 class TdViolationsController extends Controller
 {
@@ -22,12 +19,18 @@ class TdViolationsController extends Controller
         /** @var TdViolation $tdViolation */
         $tdViolation = TdViolation::with('rule')
             ->with('repo')
-            ->find(88);
+            ->find(215);
 
         $componentSource = $tdViolation->componentSource;
         $lines = unserialize($componentSource->sources);
 
-        $file_modifications_ranking = (new Reporter())->fileModificationsRanking($tdViolation, $componentSource);
+        $reporter = new Reporter();
+
+        $file_modifications_ranking = $reporter->fileModificationsRanking($tdViolation, $componentSource);
+
+        $file_corrections_ranking = $reporter->fileCorrectionRanking($tdViolation, $componentSource);
+
+        $file_sqaleindex_ranking = $reporter->fileSqaleIndexRanking($tdViolation, $componentSource);
 
         $resp = [
 
@@ -41,7 +44,10 @@ class TdViolationsController extends Controller
             'source' => $lines,
             'revision' => $componentSource->revision,
             'tdpayment' => $tdViolation->debt_string,
-            'fileModificationsRank' => $file_modifications_ranking
+            'fileModificationsRank' => $file_modifications_ranking,
+            'fileCorrectionsRank' => $file_corrections_ranking,
+            'fileSqaleIndexRank' => $file_sqaleindex_ranking,
+            'fileSqaleIndex' => $componentSource->sqale_index
 
         ];
 

@@ -76,8 +76,8 @@ class Reporter
 
                     $this->saveDiffFileMetrics($diff_metrics, $repo, $json->author);
 
-                    $violations = $this->sonarqube->getFileViolations($commit_file, $commit->sha);
-                    $previous_violations = $this->sonarqube->getFileViolations($commit_file, $previous_commit->sha);
+                    $violations = $this->sonarqube->getFileViolations($commit_file, $commit->sha, $metrics);
+                    $previous_violations = $this->sonarqube->getFileViolations($commit_file, $previous_commit->sha, $previous_metrics);
                     $diff_violations = $this->compareViolations($previous_violations, $violations);
 
                     if(!$diff_violations['resolved'] && !$diff_violations['added']) {
@@ -240,14 +240,83 @@ class Reporter
         });
 
         if($i === false) {
-            return false;
+            return 0;
         }
 
         $i++;
 
         $total = $modifications->count();
 
-        $ratio = round(1 - ($i/$total), 2);
+        $ratio = round(($i/$total), 2) * 100;
+
+        return $ratio;
+    }
+
+    public function fileCorrectionRanking(TdViolation $tdViolation, ComponentSource $componentSource)
+    {
+        $corrections = DB::table('commit_files')
+            ->join('commits', 'commits.id', '=', 'commit_files.commit_id')
+            ->select('commit_files.filename', 'commits.message', DB::raw('count(*) as count'))
+            ->where('commit_files.repo_id', '=', $tdViolation->repo_id)
+            ->where('commit_files.filename', 'LIKE', '%.php')
+            ->where(function ($query) {
+
+                $query->where('commits.message', 'LIKE', '%fixes #%')
+                    ->orWhere('commits.message', 'LIKE', '%closes #%')
+                    ->orWhere('commits.message', 'LIKE', '%resolves #%');
+
+            })
+            ->groupBy('filename')
+            ->orderBy('count')
+            ->get();
+
+        $i = $corrections->search(function ($item, $key) use ($componentSource) {
+
+            return $item->filename == $componentSource->filename;
+
+        });
+
+        if($i === false) {
+            return 0;
+        }
+
+        $i++;
+
+        $total = $corrections->count();
+
+        $ratio = round(($i/$total), 2) * 100;
+
+        return $ratio;
+    }
+
+    public function fileSqaleIndexRanking($tdViolation, $componentSource)
+    {
+        $sqale = DB::table('component_sources')
+            ->join('td_violations', 'component_sources.id', '=', 'td_violations.component_source_id')
+            ->select(
+                'component_sources.filename',
+                DB::raw('avg(component_sources.sqale_index) as avg')
+            )
+            ->where('td_violations.repo_id', '=', $tdViolation->repo_id)
+            ->groupBy('filename')
+            ->orderBy('avg')
+            ->get();
+
+        $i = $sqale->search(function ($item, $key) use ($componentSource) {
+
+            return $item->filename == $componentSource->filename;
+
+        });
+
+        if($i === false) {
+            return 0;
+        }
+
+        $i++;
+
+        $total = $sqale->count();
+
+        $ratio = round(($i/$total), 2) * 100;
 
         return $ratio;
     }

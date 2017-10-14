@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ComponentSource whereFilename($value)
  * @property string|null $revision
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ComponentSource whereRevision($value)
+ * @property int|null $sqale_index
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ComponentSource whereSqaleIndex($value)
  */
 class ComponentSource extends Model
 {
