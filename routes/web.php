@@ -19,7 +19,6 @@ $router->get('test', function () {
     $ivlen = openssl_cipher_iv_length($cipher);
     $key = substr($_ENV['APP_KEY'], '0', $ivlen);
 
-    $iv = openssl_random_pseudo_bytes($ivlen);
     $encrypt = openssl_encrypt($plain, $cipher, $key, $options, $key);
 
     var_dump($encrypt);echo '<br>';
@@ -38,6 +37,6 @@ $router->group(['middleware' => 'cors'], function () use ($router) {
 
 $router->group(['prefix' => 'violations', 'middleware' => 'cors'], function () use ($router) {
 
-    $router->get('/next/{hash}', 'TdViolationsController@next');
+    $router->get('/next', 'TdViolationsController@next');
 
 });

@@ -61,9 +61,10 @@ function populateFieds(response) {
 function getNext() {
 
     var host = $('#ajax_host').val();
+    var hash = $('#hash').val();
 
     $.ajax({
-        url: host + "/violations/next/kkkkk",
+        url: host + "/violations/next?h=" + hash,
         type: 'GET',
         dataType: 'json',
         async: false,

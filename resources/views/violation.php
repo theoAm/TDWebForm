@@ -38,6 +38,7 @@
     <div class="alert alert-warning" style="padding: 20px;margin: 20px 0px 20px 0px; font-size: 18px;">
 
         <input id="ajax_host" type="hidden" value="<?php echo $ajax_host; ?>">
+        <input id="hash" type="hidden" value="aPFYiXSODABQKd00reVyVr/Vgqd4SiQa">
         <div>
             <div class="pull-left">
                 <span>&#9888;&nbsp;&nbsp;</span>
