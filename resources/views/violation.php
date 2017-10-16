@@ -74,9 +74,9 @@
     <div class="center" style="font-size: 18px;"><u>File: <span id="filename"></span></u></div>
     <div style="clear: both;"></div>
 
-    <div><u>Maintenance rate</u>: <span id="fileModificationsRank"></span></div>
-    <div><u>Corrective maintenance rate</u>: <span id="fileCorrectionsRank"></span></div>
-    <div class="pull-left"><u>Sqale index rank</u>: <span id="fileSqaleIndex"></span></div>
+    <div><u>Maintenance rate of file</u>: <span id="fileModificationsRank"></span></div>
+    <div><u>Corrective maintenance rate of file</u>: <span id="fileCorrectionsRank"></span></div>
+    <div class="pull-left"><u>Sqale index rank of file</u>: <span id="fileSqaleIndex"></span></div>
     <div class="pull-right"><u>Revision</u>: <span id="revision"></span></div>
     <div style="clear: both;"></div>
 
@@ -86,6 +86,35 @@
 
             </tbody>
         </table>
+    </div>
+
+    <div class="form-group center">
+        <div class="center" style="padding: 20px;">
+            <select class="form-control" style="width: 120px; margin: auto;" name="ranking" id="ranking">
+                <option value="0">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <div style="margin-top: 5px;">
+                <a href="javascript:void(0);" class="btn btn-lg btn-success">
+                    Evaluate
+                </a>
+            </div>
+            <div class="small" style="margin-top: 5px;">
+                <a href="javascript:void(0);" onclick="location.reload();">
+                    Skip this and evaluate another TD item
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group right" style="margin-top: 10px;">
+        <button class="btn btn-default" onclick="location.reload();" style="height: auto;" disabled>
+            Evaluate one more Technical Debt Item &raquo;
+        </button>
     </div>
 
 
