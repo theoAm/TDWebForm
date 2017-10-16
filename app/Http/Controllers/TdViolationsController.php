@@ -17,21 +17,23 @@ class TdViolationsController extends Controller
 
     public function next(Request $request)
     {
-        $hash = $request->get('h');
-        if(!$hash) {
+        $author = $request->get('a');
+        if(!$author) {
             return false;
         }
 
-
-        $params = $this->extractParams($this->decryptHash($hash));
-        if(count($params) != 2) {
+        $project = $request->get('p');
+        if(!$project) {
             return false;
         }
 
-        $author = $params[0];
-        $project = $params[1];
-        if(!$author || !$project) {
+        $token = $request->get('t');
+        if(!$token) {
             return false;
+        }
+
+        if(md5($author . $project . $_ENV['APP_KEY']) != $token) {
+            abort(403);
         }
 
         $resp = [];
@@ -72,21 +74,6 @@ class TdViolationsController extends Controller
         ];
 
         return $resp;
-    }
-
-    private function decryptHash($hash)
-    {
-        $cipher = $_ENV['CIPHER'];
-        $options = 0;
-        $ivlen = openssl_cipher_iv_length($cipher);
-        $key = substr($_ENV['APP_KEY'], '0', $ivlen);
-
-        return openssl_decrypt($hash, $cipher, $key, $options, $key);
-    }
-
-    private function extractParams($decryptHash)
-    {
-        return explode($_ENV['STRING_DELIMITER'], $decryptHash);
     }
 
     private function getNextViolationForEvaluation($author, $project)

@@ -38,7 +38,9 @@
     <div class="alert alert-warning" style="padding: 20px;margin: 20px 0px 20px 0px; font-size: 18px;">
 
         <input id="ajax_host" type="hidden" value="<?php echo $ajax_host; ?>">
-        <input id="hash" type="hidden" value="aPFYiXSODABQKd00reVyVr/Vgqd4SiQa">
+        <input id="author" type="hidden" value="Seldaek">
+        <input id="project" type="hidden" value="composer">
+        <input id="token" type="hidden" value="773593604e2401da05a76d9c7480fa05">
         <div>
             <div class="pull-left">
                 <span>&#9888;&nbsp;&nbsp;</span>
