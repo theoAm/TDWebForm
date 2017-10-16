@@ -19,17 +19,17 @@ class TdViolationsController extends Controller
     {
         $author = $request->get('a');
         if(!$author) {
-            return false;
+            abort(400);
         }
 
         $project = $request->get('p');
         if(!$project) {
-            return false;
+            abort(400);
         }
 
         $token = $request->get('t');
         if(!$token) {
-            return false;
+            abort(400);
         }
 
         if(md5($author . $project . $_ENV['APP_KEY']) != $token) {
