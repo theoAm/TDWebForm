@@ -1,9 +1,3 @@
-$(document).ready(function () {
-
-    getNext();
-
-})
-
 function scrollToLine(line) {
 
     var source_div = $('.source-viewer');
@@ -15,6 +9,7 @@ function scrollToLine(line) {
 
 function populateFieds(response) {
 
+    $('#violation').val(response.violation);
     $('#title').text(response.rule_name);
     $('#severity').text(response.severity);
     $('#tags').text(response.tags);
@@ -69,7 +64,6 @@ function getNext() {
         url: host + "/violations/next?a=" + author + '&p=' + project + '&t=' + token,
         type: 'GET',
         dataType: 'json',
-        async: false,
         success: function (response) {
 
             populateFieds(response);
@@ -87,3 +81,50 @@ function getNext() {
 
 
 }
+
+function evaluateTdItem() {
+
+    var obj = $('#ranking');
+
+    obj.parents('.form-group').removeClass('has-error');
+
+    var value = obj.val();
+    if(value < 1) {
+        alertify.error('Select your ranking');
+        obj.parents('.form-group').addClass('has-error');
+        return false;
+    }
+
+    var v = $('#violation').val();
+    var host = $('#ajax_host').val();
+    var author = $('#author').val();
+    var token = $('#token').val();
+
+    $.ajax({
+        url: host + "/violations/evaluate?v=" + v + "&a=" + author + "&t=" + token,
+        type: 'POST',
+        dataType: 'json',
+        success: function (response) {
+
+            alertify.success('Success');
+
+        },
+        error: function () {
+
+            alertify.error('An error occurred');
+
+        },
+        complete: function () {
+
+        }
+    });
+
+}
+
+$(document).ready(function () {
+
+    getNext();
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+});

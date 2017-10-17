@@ -32,7 +32,7 @@ class TdViolationsController extends Controller
             abort(400);
         }
 
-        if(md5($author . $project . $_ENV['APP_KEY']) != $token) {
+        if(md5($author . $_ENV['APP_KEY']) != $token) {
             abort(403);
         }
 
@@ -56,6 +56,7 @@ class TdViolationsController extends Controller
 
         $resp = [
 
+            'violation' => $tdViolation->id,
             'rule_name' => $tdViolation->rule->name,
             'severity' => $tdViolation->rule->severity,
             'tags' => implode(', ', unserialize($tdViolation->tags)),
@@ -121,5 +122,24 @@ class TdViolationsController extends Controller
 
         return $tdViolation;
 
+    }
+
+    public function evaluate(Request $request)
+    {
+        $author = $request->get('a');
+        if(!$author) {
+            abort(400);
+        }
+
+        $token = $request->get('t');
+        if(!$token) {
+            abort(400);
+        }
+
+        if(md5($author . $_ENV['APP_KEY']) != $token) {
+            abort(403);
+        }
+
+        return 'true';
     }
 }

@@ -5,8 +5,11 @@
     <title>Title</title>
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/alertify.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/source.css">
+    <link rel="stylesheet" href="css/alertify/alertify.css">
+    <link rel="stylesheet" href="css/alertify/themes/bootstrap.css">
     <script type="text/javascript" src="js/app.js"></script>
 </head>
 <body>
@@ -37,10 +40,11 @@
 
     <div class="alert alert-warning" style="padding: 20px;margin: 20px 0px 20px 0px; font-size: 18px;">
 
+        <input id="violation" type="hidden" value="">
         <input id="ajax_host" type="hidden" value="<?php echo $ajax_host; ?>">
         <input id="author" type="hidden" value="Seldaek">
         <input id="project" type="hidden" value="composer">
-        <input id="token" type="hidden" value="773593604e2401da05a76d9c7480fa05">
+        <input id="token" type="hidden" value="759ffa186cc8c261a299ba505e48870c">
         <div>
             <div class="pull-left">
                 <span>&#9888;&nbsp;&nbsp;</span>
@@ -99,7 +103,10 @@
                 <option value="5">5</option>
             </select>
             <div style="margin-top: 5px;">
-                <a href="javascript:void(0);" class="btn btn-lg btn-success">
+                <a href="javascript:void(0);"
+                   class="btn btn-lg btn-success"
+                   onclick="evaluateTdItem();"
+                >
                     Evaluate
                 </a>
             </div>
@@ -112,7 +119,13 @@
     </div>
 
     <div class="form-group right" style="margin-top: 10px;">
-        <button class="btn btn-default" onclick="location.reload();" style="height: auto;" disabled>
+        <button class="btn btn-default"
+                onclick=""
+                style="height: auto;"
+                data-toggle="tooltip"
+                data-title="Evaluate current TD Item first to proceed to the next"
+                data-placement="top"
+        >
             Evaluate one more Technical Debt Item &raquo;
         </button>
     </div>

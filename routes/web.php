@@ -27,4 +27,6 @@ $router->group(['prefix' => 'violations', 'middleware' => 'cors'], function () u
 
     $router->get('/next', 'TdViolationsController@next');
 
+    $router->post('/evaluate', 'TdViolationsController@evaluate');
+
 });
