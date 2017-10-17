@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Libraries\Reporter;
 use App\Repo;
 use App\TdViolation;
+use App\TdViolationEvaluation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -126,20 +127,51 @@ class TdViolationsController extends Controller
 
     public function evaluate(Request $request)
     {
-        $author = $request->get('a');
-        if(!$author) {
+        $e = $request->get('e');
+        if(!$e) {
             abort(400);
         }
 
-        $token = $request->get('t');
-        if(!$token) {
+        $v = $request->get('v');
+        if(!$v) {
             abort(400);
         }
 
-        if(md5($author . $_ENV['APP_KEY']) != $token) {
+        $a = $request->get('a');
+        if(!$a) {
+            abort(400);
+        }
+
+        $t = $request->get('t');
+        if(!$t) {
+            abort(400);
+        }
+
+        if(md5($a . $_ENV['APP_KEY']) != $t) {
             abort(403);
         }
 
-        return 'true';
+        $tdViolation = TdViolation::find($v);
+        if(!$tdViolation) {
+            abort(404);
+        }
+
+        $tdEvaluation = null;
+
+        $tdEvaluation = TdViolationEvaluation::where('td_violation_id', '=', $tdViolation->id)
+            ->where('evaluator', '=', $a)
+            ->first();
+
+        if(!$tdEvaluation) {
+            $tdEvaluation = new TdViolationEvaluation();
+        }
+
+        $tdEvaluation->td_violation_id = $tdViolation->id;
+        $tdEvaluation->evaluator = $a;
+        $tdEvaluation->evaluation = $e;
+        $tdEvaluation->save();
+
+        return $tdEvaluation;
+
     }
 }

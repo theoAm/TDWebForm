@@ -119,7 +119,8 @@
     </div>
 
     <div class="form-group right" style="margin-top: 10px;">
-        <button class="btn btn-default"
+        <button id='next'
+                class="btn btn-default"
                 onclick=""
                 style="height: auto;"
                 data-toggle="tooltip"

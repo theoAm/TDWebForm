@@ -71,7 +71,7 @@ function getNext() {
         },
         error: function () {
 
-
+            alertify.error('An error occurred');
 
         },
         complete: function () {
@@ -100,13 +100,21 @@ function evaluateTdItem() {
     var author = $('#author').val();
     var token = $('#token').val();
 
+    var data = {
+        e: value,
+        v: v
+    };
+
     $.ajax({
-        url: host + "/violations/evaluate?v=" + v + "&a=" + author + "&t=" + token,
+        url: host + "/violations/evaluate?a=" + author + "&t=" + token,
+        data: data,
         type: 'POST',
         dataType: 'json',
         success: function (response) {
 
             alertify.success('Success');
+            $('#next').tooltip('destroy');
+            $('#next').attr('onclick', 'location.reload();');
 
         },
         error: function () {

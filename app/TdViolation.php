@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereDebtString($value)
  * @property string|null $added_or_resolved
  * @method static \Illuminate\Database\Eloquent\Builder|\App\TdViolation whereAddedOrResolved($value)
+ * @property-read \App\TdViolationEvaluation $evaluation
  */
 class TdViolation extends Model
 {
@@ -51,5 +52,10 @@ class TdViolation extends Model
     public function repo()
     {
         return $this->belongsTo(Repo::class);
+    }
+
+    public function evaluation()
+    {
+        return $this->hasOne(TdViolationEvaluation::class);
     }
 }
