@@ -61,7 +61,7 @@ function getNext() {
     var token = $('#token').val();
 
     $.ajax({
-        url: host + "/violations/next?a=" + author + '&p=' + project + '&t=' + token,
+        url: "/violations/next?a=" + author + '&p=' + project + '&t=' + token,
         type: 'GET',
         dataType: 'json',
         success: function (response) {
@@ -114,7 +114,7 @@ function evaluateTdItem() {
     };
 
     $.ajax({
-        url: host + "/violations/evaluate?a=" + author + "&t=" + token,
+        url: "/violations/evaluate?a=" + author + "&t=" + token,
         data: data,
         type: 'POST',
         dataType: 'json',
