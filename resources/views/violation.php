@@ -94,41 +94,60 @@
 
     <div class="form-group center">
         <div class="center" style="padding: 20px;">
-            <select class="form-control" style="width: 120px; margin: auto;" name="ranking" id="ranking">
-                <option value="0">Select</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <div style="margin-top: 5px;">
+
+            <div class="">
+
+                <select class="form-control"
+                        style="width: 120px;
+                        font-size: 18px;
+                        margin: auto;
+                        padding: 10px 16px;
+                        height: auto;
+                        vertical-align: middle;
+                        display: inline-block;"
+                        name="ranking"
+                        id="ranking"
+                >
+                    <option value="0">Select</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+
                 <a href="javascript:void(0);"
                    class="btn btn-lg btn-success"
                    onclick="evaluateTdItem();"
                 >
                     Evaluate
                 </a>
+
             </div>
-            <div class="small" style="margin-top: 5px;">
-                <a href="javascript:void(0);" onclick="location.reload();">
-                    Skip this and evaluate another TD item
-                </a>
+
+            <div class="small" style="margin-top: 10px;">
+                <div>
+                    <a href="javascript:void(0);" onclick="location.reload();">
+                        Skip this and evaluate another TD item
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="form-group right" style="margin-top: 10px;">
+    <div id="more_items"
+         class="form-group center" style="margin-top: 10px; display: none;"
+    >
         <button id='next'
                 class="btn btn-default"
-                onclick=""
+                onclick="location.reload();"
                 style="height: auto;"
-                data-toggle="tooltip"
-                data-title="Evaluate current TD Item first to proceed to the next"
-                data-placement="top"
         >
             Evaluate one more Technical Debt Item &raquo;
         </button>
+        <div class="small" style="margin-top: 10px;">
+            <a href="/thank-you">I do not want to evaluate more TD items</a>
+        </div>
     </div>
 
 

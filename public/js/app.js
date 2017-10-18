@@ -66,10 +66,18 @@ function getNext() {
         dataType: 'json',
         success: function (response) {
 
-            populateFieds(response);
+            if(response.violation) {
+
+                populateFieds(response);
+
+            } else {
+
+                alertify.error('No more TD items found for evaluation');
+
+            }
 
         },
-        error: function () {
+        error: function (jqXHR) {
 
             alertify.error('An error occurred');
 
@@ -112,9 +120,11 @@ function evaluateTdItem() {
         dataType: 'json',
         success: function (response) {
 
-            alertify.success('Success');
-            $('#next').tooltip('destroy');
-            $('#next').attr('onclick', 'location.reload();');
+            alertify.success('Your evaluation was saved');
+            $('#more_items').show();
+            document.querySelector('#more_items').scrollIntoView({
+                behavior: 'smooth'
+            });
 
         },
         error: function () {
@@ -132,7 +142,5 @@ function evaluateTdItem() {
 $(document).ready(function () {
 
     getNext();
-
-    $('[data-toggle="tooltip"]').tooltip();
 
 });

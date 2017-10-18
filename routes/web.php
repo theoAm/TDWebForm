@@ -21,6 +21,8 @@ $router->group(['middleware' => 'cors'], function () use ($router) {
 
     $router->get('/', 'MainController@index');
 
+    $router->get('/thank-you', 'MainController@thankYou');
+
 });
 
 $router->group(['prefix' => 'violations', 'middleware' => 'cors'], function () use ($router) {

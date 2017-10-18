@@ -41,7 +41,7 @@ class TdViolationsController extends Controller
 
         $tdViolation = $this->getNextViolationForEvaluation($author, $project);
         if(!$tdViolation) {
-            return null;
+            return [];
         }
 
         $componentSource = $tdViolation->componentSource;
