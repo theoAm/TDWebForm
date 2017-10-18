@@ -98,7 +98,7 @@ function evaluateTdItem() {
 
     var value = obj.val();
     if(value < 1) {
-        alertify.error('Select your ranking');
+        alertify.error('Select your answer');
         obj.parents('.form-group').addClass('has-error');
         return false;
     }
@@ -120,7 +120,7 @@ function evaluateTdItem() {
         dataType: 'json',
         success: function (response) {
 
-            alertify.success('Your evaluation was saved');
+            alertify.success('Your answer was saved');
             $('#more_items').show();
             document.querySelector('#more_items').scrollIntoView({
                 behavior: 'smooth'

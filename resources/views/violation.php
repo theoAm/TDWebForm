@@ -97,6 +97,10 @@
 
             <div class="">
 
+                <div style="margin-bottom: 10px; font-size: 18px;">
+                    <i>"From scale 1 to 5 how important is it to solve the issue above?"</i>
+                </div>
+
                 <select class="form-control"
                         style="width: 120px;
                         font-size: 18px;

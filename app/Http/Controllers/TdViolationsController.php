@@ -128,7 +128,13 @@ class TdViolationsController extends Controller
     public function evaluate(Request $request)
     {
         $e = $request->get('e');
+        if($e < 0 || !is_numeric($e)) {
+            $e = 0;
+        }
         if(!$e) {
+            abort(400);
+        }
+        if($e > 5) {
             abort(400);
         }
 
