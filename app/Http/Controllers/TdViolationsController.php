@@ -33,7 +33,7 @@ class TdViolationsController extends Controller
             abort(400);
         }
 
-        if(md5($author . $_ENV['APP_KEY']) != $token) {
+        if(md5($author . $project . $_ENV['APP_KEY']) != $token) {
             abort(403);
         }
 
@@ -90,7 +90,7 @@ class TdViolationsController extends Controller
         $rules = DB::table('td_violations')
             ->select(DB::raw('DISTINCT td_violations.rule_id'))
             ->where('td_violations.repo_id', '=', $repo->id)
-            ->where('td_violations.author', '=', $author)
+            //->where('td_violations.author', '=', $author)
             ->orderBy('td_violations.rule_id')
             ->get();
 
@@ -102,7 +102,7 @@ class TdViolationsController extends Controller
                 ->select(DB::raw('COUNT(*) AS count'))
                 ->join('td_violation_evaluations', 'td_violation_evaluations.td_violation_id', '=', 'td_violations.id')
                 ->where('td_violations.repo_id', '=', $repo->id)
-                ->where('td_violations.author', '=', $author)
+                //->where('td_violations.author', '=', $author)
                 ->where('td_violation_evaluations.evaluator', '=', $author)
                 ->where('td_violations.rule_id', '=', $rule_id)
                 ->first();
@@ -115,9 +115,9 @@ class TdViolationsController extends Controller
 
         $pick_rule = $candidate_rules[array_rand($candidate_rules)];
 
-        $tdViolation = TdViolation::where('author', '=', $author)
-            ->where('rule_id', '=', $pick_rule)
+        $tdViolation = TdViolation::where('rule_id', '=', $pick_rule)
             ->where('repo_id', '=', $repo->id)
+            //->where('author', '=', $author)
             ->whereRaw('id NOT IN (SELECT td_violation_id FROM td_violation_evaluations)')
             ->first();
 
@@ -153,13 +153,17 @@ class TdViolationsController extends Controller
             abort(400);
         }
 
-        if(md5($a . $_ENV['APP_KEY']) != $t) {
-            abort(403);
-        }
-
+        /** @var TdViolation $tdViolation */
         $tdViolation = TdViolation::find($v);
         if(!$tdViolation) {
             abort(404);
+        }
+
+        /** @var Repo $repo */
+        $repo = Repo::find($tdViolation->repo_id);
+
+        if(md5($a . $repo->name . $_ENV['APP_KEY']) != $t) {
+            abort(403);
         }
 
         $tdEvaluation = null;

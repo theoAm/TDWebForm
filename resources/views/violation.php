@@ -42,9 +42,9 @@
 
         <input id="violation" type="hidden" value="">
         <input id="ajax_host" type="hidden" value="<?php echo $ajax_host; ?>">
-        <input id="author" type="hidden" value="Seldaek">
-        <input id="project" type="hidden" value="composer">
-        <input id="token" type="hidden" value="759ffa186cc8c261a299ba505e48870c">
+        <input id="author" type="hidden" value="<?php echo $author; ?>">
+        <input id="project" type="hidden" value="<?php echo $project; ?>">
+        <input id="token" type="hidden" value="<?php echo $token; ?>">
         <div>
             <div class="pull-left">
                 <span>&#9888;&nbsp;&nbsp;</span>
