@@ -62,6 +62,7 @@ class MainController extends Controller
         $dev_td_added = TdDiff::where('repo_id', '=', $repo->id)
             ->where('author', '=', $author)
             ->sum('sqale_index_diff');
+        $other_td_added = $total_td_added - $dev_td_added;
 
         $ratio_commits = $dev_commits/$total_commits;
         $ratio_td_added = $dev_td_added/$total_td_added;
@@ -83,7 +84,7 @@ class MainController extends Controller
             'token' => $token,
             'top_violations' => $dev_violations_grouped,
             'dev_td_added' => $dev_td_added,
-            'total_td_added' => $total_td_added
+            'other_td_added' => $other_td_added
         ]);
 
     }

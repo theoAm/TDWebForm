@@ -51,6 +51,9 @@
         <div class="row">
             <div class="col-xs-12 col-md-7">
 
+                <div>Author: <?php echo $author; ?></div>
+                <div>Project: <?php echo $project; ?></div>
+
                 <div id="top-violations" style="margin-bottom: 30px;">
 
                     <h2 style="font-size: 20px;"><u>Top TD Items added</u></h2>
@@ -108,8 +111,8 @@
         ],
         "dataProvider": [
             {
-                "developer": "Total",
-                "td": <?php echo $total_td_added; ?>,
+                "developer": "Others",
+                "td": <?php echo $other_td_added; ?>,
                 "color": "#d3d3d3"
             },
             {
