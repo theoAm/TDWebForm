@@ -76,9 +76,15 @@ class MainController extends Controller
             ->limit(5)
             ->get();
 
-        dd($dev_violations_grouped);
-
-        dd($ratio_commits, $ratio_td_added);
+        return view('report',[
+            'ajax_host' => $_ENV['AJAX_HOST'],
+            'author' => $author,
+            'project' => $project,
+            'token' => $token,
+            'top_violations' => $dev_violations_grouped,
+            'dev_td_added' => $dev_td_added,
+            'total_td_added' => $total_td_added
+        ]);
 
     }
 }
