@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Technical Debt Evaluation</title>
+    <title>Technical Debt Report</title>
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -51,12 +51,20 @@
         <div class="row">
             <div class="col-xs-12 col-md-7">
 
-                <div>Author: <?php echo $author; ?></div>
-                <div>Project: <?php echo $project; ?></div>
+                <div class="pull-left" style="margin-right: 10px;">
+                    <img src="/images/avatar.png" alt="avatar" height="110">
+                </div>
+                <div class="pull-left" style="padding-top: 15px;">
+                    <div><u>Author</u>: <?php echo $author; ?></div>
+                    <div><u>Project</u>: <?php echo $project; ?></div>
+                    <div><u>Commit density</u>: <?php echo round($dev_commits/$total_commits*100, 2); ?>% (of total commits)</div>
+                    <div><u>Technical Debt added</u>: <?php echo round($dev_td_added/$total_td_added*100, 2); ?>% (of totally added TD)</div>
+                </div>
+                <div style="clear: both;"></div>
 
                 <div id="top-violations" style="margin-bottom: 30px;">
 
-                    <h2 style="font-size: 20px;"><u>Top TD Items added</u></h2>
+                    <h2 style="font-size: 20px;"><u>Most frequent TD Items added</u></h2>
 
                     <?php foreach ($top_violations as $key => $top_violation): ?>
 
@@ -105,19 +113,23 @@
         "theme": "light",
         "titles": [
             {
-                "text": "TD added relatively to other developers",
+                "text": "TD added per commit",
                 "size": 18
+            },
+            {
+                "text": "(relatively to other developers)",
+                "size": 14
             }
         ],
         "dataProvider": [
             {
                 "developer": "Others",
-                "td": <?php echo $other_td_added; ?>,
+                "td": <?php echo $other_td_added/$other_commits; ?>,
                 "color": "#d3d3d3"
             },
             {
                 "developer": "<?php echo $author; ?>",
-                "td": <?php echo $dev_td_added; ?>,
+                "td": <?php echo $dev_td_added/$dev_commits; ?>,
                 "color": "#b73130"
             }
         ],

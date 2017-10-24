@@ -57,15 +57,13 @@ class MainController extends Controller
         $dev_commits = Commit::where('repo_id', '=', $repo->id)
             ->where('author', '=', $author)
             ->count();
+        $other_commits = $total_commits - $dev_commits;
 
         $total_td_added = TdDiff::where('repo_id', '=', $repo->id)->sum('sqale_index_diff');
         $dev_td_added = TdDiff::where('repo_id', '=', $repo->id)
             ->where('author', '=', $author)
             ->sum('sqale_index_diff');
         $other_td_added = $total_td_added - $dev_td_added;
-
-        $ratio_commits = $dev_commits/$total_commits;
-        $ratio_td_added = $dev_td_added/$total_td_added;
 
         $dev_violations_grouped = DB::table('td_violations')
             ->join('td_rules', 'td_rules.id', '=', 'td_violations.rule_id')
@@ -84,7 +82,11 @@ class MainController extends Controller
             'token' => $token,
             'top_violations' => $dev_violations_grouped,
             'dev_td_added' => $dev_td_added,
-            'other_td_added' => $other_td_added
+            'other_td_added' => $other_td_added,
+            'total_td_added' => $total_td_added,
+            'dev_commits' => $dev_commits,
+            'other_commits' => $other_commits,
+            'total_commits' => $total_commits
         ]);
 
     }
