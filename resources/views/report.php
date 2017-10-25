@@ -127,7 +127,7 @@
         "theme": "light",
         "titles": [
             {
-                "text": "TD added per commit",
+                "text": "Total Technical Debt added",
                 "size": 18
             },
             {
@@ -138,12 +138,12 @@
         "dataProvider": [
             {
                 "developer": "Others",
-                "td": <?php echo $other_td_added/$other_commits; ?>,
+                "td": <?php echo $other_td_added; ?>,
                 "color": "#d3d3d3"
             },
             {
                 "developer": "<?php echo $author; ?>",
-                "td": <?php echo $dev_td_added/$dev_commits; ?>,
+                "td": <?php echo $dev_td_added; ?>,
                 "color": "#b73130"
             }
         ],
