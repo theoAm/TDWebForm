@@ -103,6 +103,19 @@
 
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="center" style="margin-top: 20px;">
+
+                    <a href="<?php echo '/?a=' . $author . '&p=' . $project . '&t=' . $token; ?>" class="btn btn-success btn-lg">
+                        Evaluate a couple of TD items &raquo;
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 
 

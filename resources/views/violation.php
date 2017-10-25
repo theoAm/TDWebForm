@@ -130,7 +130,7 @@
 
             </div>
 
-            <div class="small" style="margin-top: 10px;">
+            <div id="skip_item" class="small" style="margin-top: 10px;">
                 <div>
                     <a href="javascript:void(0);" onclick="location.reload();">
                         Skip this and evaluate another TD item

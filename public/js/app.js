@@ -121,6 +121,7 @@ function evaluateTdItem() {
         success: function (response) {
 
             alertify.success('Your answer was saved');
+            $('#skip_item').hide();
             $('#more_items').show();
             document.querySelector('#more_items').scrollIntoView({
                 behavior: 'smooth'
