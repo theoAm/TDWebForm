@@ -159,6 +159,11 @@ class TdViolationsController extends Controller
             abort(404);
         }
 
+        $c = $request->get('c');
+        if(!$c) {
+            $c = null;
+        }
+
         /** @var Repo $repo */
         $repo = Repo::find($tdViolation->repo_id);
 
@@ -179,6 +184,7 @@ class TdViolationsController extends Controller
         $tdEvaluation->td_violation_id = $tdViolation->id;
         $tdEvaluation->evaluator = $a;
         $tdEvaluation->evaluation = $e;
+        $tdEvaluation->comment = $c;
         $tdEvaluation->save();
 
         return $tdEvaluation;

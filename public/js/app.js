@@ -103,6 +103,8 @@ function evaluateTdItem() {
         return false;
     }
 
+    var comment = $('#comment').val();
+
     var v = $('#violation').val();
     var host = $('#ajax_host').val();
     var author = $('#author').val();
@@ -110,7 +112,8 @@ function evaluateTdItem() {
 
     var data = {
         e: value,
-        v: v
+        v: v,
+        c: comment
     };
 
     $.ajax({

@@ -96,7 +96,7 @@
     <div class="form-group center">
         <div class="center" style="padding: 20px;">
 
-            <div class="">
+            <div class="form-group">
 
                 <div style="margin-bottom: 10px; font-size: 18px;">
                     <i>"From scale 1 to 5 how important is it to solve the issue above?"</i>
@@ -130,6 +130,19 @@
 
             </div>
 
+            <div class="row">
+                <div class="col-xs-12 col-md-6 col-md-offset-3">
+                    <div class="form-group-lg">
+                        <input id="comment"
+                               class="form-control"
+                               type="text"
+                               value=""
+                               placeholder="Here you can write your comment if you want"
+                        />
+                    </div>
+                </div>
+            </div>
+
             <div id="skip_item" class="small" style="margin-top: 10px;">
                 <div>
                     <a href="javascript:void(0);" onclick="location.reload();">
@@ -144,7 +157,7 @@
          class="form-group center" style="margin-top: 10px; display: none;"
     >
         <button id='next'
-                class="btn btn-default"
+                class="btn btn-info btn-lg"
                 onclick="location.reload();"
                 style="height: auto;"
         >
