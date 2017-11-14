@@ -99,7 +99,7 @@
             <div class="form-group">
 
                 <div style="margin-bottom: 10px; font-size: 18px;">
-                    <i>"From scale 1 to 5 how important is it to solve the issue above?"</i>
+                    <i>"From scale 0 to 5 how important is it to solve the issue above?"</i>
                 </div>
 
                 <select class="form-control"
@@ -113,12 +113,13 @@
                         name="ranking"
                         id="ranking"
                 >
-                    <option value="0">Select</option>
+                    <option value="-1">Select</option>
+                    <option value="0">0 (No need to solve it)</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="5">5 (It is urgent to solve it)</option>
                 </select>
 
                 <a href="javascript:void(0);"
