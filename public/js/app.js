@@ -97,7 +97,7 @@ function evaluateTdItem() {
     obj.parents('.form-group').removeClass('has-error');
 
     var value = obj.val();
-    if(value < 0) {
+    if(value < 1) {
         alertify.error('Select your answer');
         obj.parents('.form-group').addClass('has-error');
         return false;
