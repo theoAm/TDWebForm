@@ -79,9 +79,30 @@
     <div class="center" style="font-size: 18px;"><u>File: <span id="filename"></span></u></div>
     <div style="clear: both;"></div>
 
-    <div><u>Maintenance rate of file</u>: <span id="fileModificationsRank"></span></div>
-    <div><u>Corrective maintenance rate of file</u>: <span id="fileCorrectionsRank"></span></div>
-    <div class="pull-left"><u>Sqale index rank of file</u>: <span id="fileSqaleIndex"></span></div>
+    <div>
+        <u>File change frequency</u>: <span id="fileModificationsRank"></span>
+        <span style="cursor: pointer; color: #0096ff;" data-toggle="tooltip"
+              data-placement="top"
+              data-title="This indicates how often the file gets modified, relatively to other files. A percentage of 100% means that the file is the most frequently modified file.">
+            (&#8505;)
+        </span>
+    </div>
+    <div>
+        <u>Issue fixing frequency</u>: <span id="fileCorrectionsRank"></span>
+        <span style="cursor: pointer; color: #0096ff;" data-toggle="tooltip"
+              data-placement="top"
+              data-title="This indicates how often the file gets modified for issue fixing, relatively to other files. A percentage of 100% means that the file produces the most issues.">
+            (&#8505;)
+        </span>
+    </div>
+    <div class="pull-left">
+        <u>Technical Debt of file</u>: <span id="fileSqaleIndex"></span>
+        <span style="cursor: pointer; color: #0096ff;" data-toggle="tooltip"
+              data-placement="top"
+              data-title="This indicates the technical debt of the file, relatively to other files. A percentage of 100% means that the file has the highest technical debt.">
+            (&#8505;)
+        </span>
+    </div>
     <div class="pull-right"><u>Revision</u>: <span id="revision"></span></div>
     <div style="clear: both;"></div>
 
@@ -170,6 +191,14 @@
 
 
 </div>
+
+<script>
+    $(document).ready(
+        function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+    );
+</script>
 
 </body>
 </html>
