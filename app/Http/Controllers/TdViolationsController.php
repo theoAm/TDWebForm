@@ -103,7 +103,7 @@ class TdViolationsController extends Controller
                 ->join('td_violation_evaluations', 'td_violation_evaluations.td_violation_id', '=', 'td_violations.id')
                 ->where('td_violations.repo_id', '=', $repo->id)
                 //->where('td_violations.author', '=', $author)
-                ->where('td_violation_evaluations.evaluator', '=', $author)
+                //->where('td_violation_evaluations.evaluator', '=', $author)
                 ->where('td_violations.rule_id', '=', $rule_id)
                 ->first();
 
