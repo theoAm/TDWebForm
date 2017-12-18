@@ -85,41 +85,37 @@ class TdViolationsController extends Controller
             return null;
         }
 
-        $rules_count = [];
-
-        $rules = DB::table('td_violations')
-            ->select(DB::raw('DISTINCT td_violations.rule_id'))
-            ->where('td_violations.repo_id', '=', $repo->id)
-            //->where('td_violations.author', '=', $author)
-            ->orderBy('td_violations.rule_id')
+        $tdViolations = TdViolation::select('td_violations.*', 'td_violation_evaluations.evaluator')
+            ->leftJoin('td_violation_evaluations', function ($join) use ($author) {
+                $join->on('td_violation_evaluations.td_violation_id', '=', 'td_violations.id')
+                    ->where('evaluator', '=', $author);
+            })
+            ->where('repo_id', '=', $repo->id)
             ->get();
 
-        foreach ($rules as $item) {
-
-            $rule_id = $item->rule_id;
-
-            $count = DB::table('td_violations')
-                ->select(DB::raw('COUNT(*) AS count'))
-                ->join('td_violation_evaluations', 'td_violation_evaluations.td_violation_id', '=', 'td_violations.id')
-                ->where('td_violations.repo_id', '=', $repo->id)
-                //->where('td_violations.author', '=', $author)
-                //->where('td_violation_evaluations.evaluator', '=', $author)
-                ->where('td_violations.rule_id', '=', $rule_id)
-                ->first();
-
-            $rules_count[$rule_id] = $count->count;
-
+        if(!$tdViolations->count()) {
+            return null;
         }
 
-        $candidate_rules = array_keys($rules_count, min($rules_count));
+        $candidate_rules = [];
 
-        $pick_rule = $candidate_rules[array_rand($candidate_rules)];
+        $count = 0;
 
-        $tdViolation = TdViolation::where('rule_id', '=', $pick_rule)
-            ->where('repo_id', '=', $repo->id)
-            //->where('author', '=', $author)
-            ->whereRaw('id NOT IN (SELECT td_violation_id FROM td_violation_evaluations)')
-            ->first();
+        /** @var TdViolation $tdViolation */
+        foreach ($tdViolations as $tdViolation) {
+            if($tdViolation->evaluator != $author) {
+                $candidate_rules[$tdViolation->rule_id][] = $tdViolation->id;
+                $count ++;
+            }
+        }
+
+        //dd($count, $candidate_rules);
+
+        $pick_rule = array_rand($candidate_rules);
+        $candidate_violations = $candidate_rules[$pick_rule];
+        $pick_violation = $candidate_violations[array_rand($candidate_violations)];
+
+        $tdViolation = TdViolation::find($pick_violation);
 
         return $tdViolation;
 
